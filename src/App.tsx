@@ -42,28 +42,46 @@ const App = () => {
   const displayMatches = () => {
     const matchedCharacters = findMatches(searchTerm);
     if (matchedCharacters.length === 0) {
-      return <li>No results found</li>;
+      return <li className="noResults">No results found</li>;
     }
-    // have to have a fallback for when the species array is empty as it always is for 'Human'
-    return matchedCharacters.map((character, index) => (
-      <li key={index} className="characterListItem">
-        <span className="name">{character.name}</span>
-        <span className="homeworld">{getPlanetName(character.homeworld)}</span>
-        <span className="species">
-          {character.species.length > 0
-            ? character.species.map(speciesUrl => getSpeciesName([speciesUrl])).join(', ')
-            : 'Human'}
-        </span>
-      </li>
+  
+    return matchedCharacters.map((character, index) => {
+      const name = character.name;
+      const planet = getPlanetName(character.homeworld);
+      const species = character.species.length > 0
+        ? character.species.map(speciesUrl => getSpeciesName([speciesUrl])).join(', ')
+        : 'Human';
+  
+      const regex = new RegExp(searchTerm, 'gi');
+  
+      const highlightedName = highlightText(name, regex);
+      const highlightedPlanet = highlightText(planet, regex);
+      const highlightedSpecies = highlightText(species, regex);
+  
+      return (
+        <li key={index} className="characterListItem">
+          <span className="name">{highlightedName}</span>
+          <span className="homeworld">{highlightedPlanet}</span>
+          <span className="species">{highlightedSpecies}</span>
+        </li>
+      );
+    });
+  }
+  
+  const highlightText = (text: string, regex: RegExp) => {
+    const parts = text.split(regex);
+    return parts.map((part, i) => (
+      <React.Fragment key={i}>
+        {i > 0 ? <span className="highlight">{regex.exec(text)}</span> : null}
+        {part}
+      </React.Fragment>
     ));
   }
+  
   
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   }
-
-  console.log('apiData', apiData);
-  console.log('loading', loading);
   
   return (
     <div className="App">

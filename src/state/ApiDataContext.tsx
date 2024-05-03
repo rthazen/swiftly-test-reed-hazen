@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ApiData } from '../types/ApiData';
 
-interface ApiDataContext {
+interface ApiDataContextValue {
   apiData: ApiData;
   setApiData: React.Dispatch<React.SetStateAction<ApiData>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ApiDataContext = createContext<ApiDataContext | undefined>(undefined);
+const ApiDataContext = createContext<ApiDataContextValue | undefined>(undefined);
 
 export const useApiData = () => {
   const context = useContext(ApiDataContext);
