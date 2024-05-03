@@ -16,6 +16,15 @@
   pointer-events: none;
 }
 
+.searchForm {
+  margin-top: 1rem;
+}
+
+.search {
+  height: 2rem;
+  width: 30%;
+}
+
 .noResults {
   list-style: none;
 }
