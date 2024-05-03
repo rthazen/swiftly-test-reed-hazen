@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useApiData } from './state/ApiDataContext';
 import './App.css';
-import logo from './logo.svg';
 import Loader from './assets/Loader.svg';
 
 
